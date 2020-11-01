@@ -3,7 +3,9 @@
     <string name="btn_create">New</string>
     <string name="text_cols">Cols:</string>
     <string name="text_rows">Rows:</string>
-    <string name="button">Button</string>
+    <string name="mines_msg"> Mines: %1d</string>
+    <string name="lose_msg">You\'ve lost</string>
+    <string name="win_msg">You\'ve won!!!</string>
     <string-array name="nums">
         <item>3</item>
         <item>4</item>

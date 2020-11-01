@@ -40,11 +40,11 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        spinnerRows = (Spinner) findViewById(R.id.spinnerRows);
-        spinnerCols = (Spinner) findViewById(R.id.spinnerCols);
+        spinnerRows = findViewById(R.id.spinnerRows);
+        spinnerCols = findViewById(R.id.spinnerCols);
         fillSpinners();
 
-        linearLayout = (LinearLayout) findViewById(R.id.verticalLayout);
+        linearLayout = findViewById(R.id.verticalLayout);
 
         tableLayout = new TableLayout(this);
         linearLayout.addView(tableLayout);
@@ -70,7 +70,7 @@ public class MainActivity extends AppCompatActivity {
         params = new TableRow.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT, 1);
 
-        Button btnCreate = (Button) findViewById(R.id.btnCreate);
+        Button btnCreate = findViewById(R.id.btnCreate);
         btnCreate.setOnClickListener(this::onClickCreateButton);
     }
 
@@ -82,7 +82,7 @@ public class MainActivity extends AppCompatActivity {
 
         fillBoard(rows, cols);
         drawBoard();
-        minesText.setText(" Mines: " + numberOfMines);
+        minesText.setText(String.format(getResources().getString(R.string.mines_msg), numberOfMines));
         resultMsg.setText("");
 
         running = true;
@@ -95,13 +95,13 @@ public class MainActivity extends AppCompatActivity {
                 running = false;
                 showAllMines();
                 resultMsg.setTextColor(Color.RED);
-                resultMsg.setText("You've lost");
+                resultMsg.setText(getResources().getString(R.string.lose_msg));
             } else {
                 if (properties.getNumber() == 0) {
                     showNearbyCells(properties.getX(), properties.getY());
-                } else {
-                    ((Button) findViewById(v.getId())).setBackground(ContextCompat.getDrawable(
-                            this, R.drawable.cell_background_show));
+                } else if (properties.isHidden()) {
+                    findViewById(v.getId()).setBackground(ContextCompat.getDrawable(this,
+                            R.drawable.cell_background_show));
                     ((Button) findViewById(v.getId())).setText(String.valueOf(properties.getNumber()));
                     properties.setHidden(false);
                     cellsToWin--;
@@ -109,7 +109,7 @@ public class MainActivity extends AppCompatActivity {
             }
             if (cellsToWin == 0) {
                 resultMsg.setTextColor(Color.GREEN);
-                resultMsg.setText("You've won!!!");
+                resultMsg.setText(getResources().getString(R.string.win_msg));
                 running = false;
             }
         }
@@ -119,19 +119,22 @@ public class MainActivity extends AppCompatActivity {
         if (running) {
             ButtonCell properties = (ButtonCell) v.getTag();
             if (properties.isHidden()) {
-                Button cell = (Button) findViewById(v.getId());
+                Button cell = findViewById(v.getId());
                 if (properties.isInAlert()) {
-                    cell.setBackground(ContextCompat.getDrawable(this, R.drawable.cell_background_hide));
+                    cell.setBackground(ContextCompat.getDrawable(this,
+                            R.drawable.cell_background_hide));
                     cell.setText("");
                     properties.setInAlert(false);
                     numberOfMines++;
                 } else {
-                    cell.setBackground(ContextCompat.getDrawable(this, R.drawable.cell_background_alert));
+                    cell.setBackground(ContextCompat.getDrawable(this,
+                            R.drawable.cell_background_alert));
                     cell.setText("?");
                     properties.setInAlert(true);
                     numberOfMines--;
                 }
-                minesText.setText(" Mines: " + numberOfMines);
+                minesText.setText(String.format(getResources().getString(R.string.mines_msg),
+                        numberOfMines));
             }
         }
         return true;
@@ -204,9 +207,10 @@ public class MainActivity extends AppCompatActivity {
                 Button btn = new Button(this);
                 btn.setId(id++);
                 btn.setLayoutParams(params);
-                btn.setBackground(ContextCompat.getDrawable(this, R.drawable.cell_background_hide));
-                btn.setText("");
+                btn.setBackground(ContextCompat.getDrawable(this,
+                        R.drawable.cell_background_hide));
                 btn.setTag(new ButtonCell(i, j, board[i][j], board[i][j] == -1));
+                btn.setText("");
                 btn.setOnClickListener(this::onClickCellButton);
                 btn.setOnLongClickListener(this::onLongClickPutAlert);
                 tableRows.get(i).addView(btn);
@@ -230,7 +234,7 @@ public class MainActivity extends AppCompatActivity {
                 Button cell = (Button) row.getChildAt(i);
                 ButtonCell properties = (ButtonCell) cell.getTag();
                 if (properties.isMine()) {
-                    ((Button) cell).setBackground(ContextCompat.getDrawable(this,
+                    cell.setBackground(ContextCompat.getDrawable(this,
                             R.drawable.cell_background_mine));
                 }
             }
