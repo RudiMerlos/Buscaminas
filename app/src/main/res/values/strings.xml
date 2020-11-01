@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">Buscaminas</string>
+    <string name="btn_create">New</string>
+    <string name="text_cols">Cols:</string>
+    <string name="text_rows">Rows:</string>
+    <string name="button">Button</string>
+    <string-array name="nums">
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+        <item>9</item>
+        <item>10</item>
+    </string-array>
+</resources>
